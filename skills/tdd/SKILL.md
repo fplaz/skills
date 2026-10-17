@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Red-green-refactor in vertical slices: one failing behavior test, minimal code to pass, then refactor.
+description: Red-green-refactor in vertical slices - one failing behavior test, minimal code to pass, then refactor.
 disable-model-invocation: true
 ---
 
