@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Build one PR of new or changed behavior: understand first, name the data shape, checkpoint the work, small ordered commits, verify on the real surface.
+description: Build one PR of new or changed behavior - understand first, name the data shape, checkpoint the work, small ordered commits, verify on the real surface.
 disable-model-invocation: true
 ---
 

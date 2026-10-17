@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Turn a PRD into an implementation plan: data shape first, one section per PR with unit/live/rollback checks and dependencies. Writes docs/plans/<slug>.md and stops for explicit go.
+description: Turn a PRD into an implementation plan - data shape first, one section per PR with unit/live/rollback checks and dependencies. Writes docs/plans/<slug>.md and stops for explicit go.
 disable-model-invocation: true
 ---
 

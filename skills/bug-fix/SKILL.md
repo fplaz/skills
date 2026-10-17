@@ -1,6 +1,6 @@
 ---
 name: bug-fix
-description: Fix a reported defect: reproduce first on the real surface, bisect the cause with instrumentation, failing test before the fix, smallest change the evidence justifies.
+description: Fix a reported defect - reproduce first on the real surface, bisect the cause with instrumentation, failing test before the fix, smallest change the evidence justifies.
 disable-model-invocation: true
 ---
 
