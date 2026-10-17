@@ -7,33 +7,29 @@ Every skill is **user-invoked only** (`disable-model-invocation: true`), so noth
 ## Workflow
 
 ```
-think-deep (tt) -> prd -> plan -> feature | bug-fix -> review -> open-pr -> learn
+think-deep -> prd -> plan -> feature | bug-fix -> review -> open-pr -> learn
 ```
 
-| Stage | Skill | What it does |
-|---|---|---|
-| Before building | `think-deep` / `tt` | Interviews you one question at a time until there are no open gaps. Writes `docs/glossary.md` and `docs/decisions/`. |
-| | `prd` | Product requirements in `docs/prd/<slug>.md`. No implementation. |
-| | `plan` | Implementation plan in `docs/plans/<slug>.md`. Data shape first, one section per PR with unit, live, and rollback checks. Reads `docs/solutions/`. Stops for your go. |
-| Building | `feature` | Understand, name the data shape, checkpoint, small commits, verify on the real surface. |
-| | `architect` | Caller usage, types, and module shape before crossing a boundary. |
-| | `bug-fix` | Repro first, bisect with instrumentation, failing test, smallest fix. |
-| | `tdd` | Red, green, refactor in vertical slices. |
-| Quality | `improve-architecture` | Ranked deepening opportunities, then dig into one. |
-| | `review` | Spec axis plus standards axis, then try to break it. |
-| | `blast-radius` | What else a small change could break, proven by running code. |
-| | `unslop` | Strip AI tells from prose. |
-| Memory and ship | `learn` | Write the lesson to `docs/solutions/<topic>.md`. |
-| | `open-pr` | Why / What changed / Scope / Blast Radius / Verification. Never merges. |
-| Index | `help` | Which skill fits right now. |
+| Stage | Skill | What it does | When to use it |
+|---|---|---|---|
+| Before building | `think-deep` | Interviews you one question at a time until there are no open gaps. Writes `docs/glossary.md` and `docs/decisions/`. | You have a fuzzy idea or a big feature (for example team billing) and want every open question settled before writing anything down. |
+| | `prd` | Product requirements in `docs/prd/<slug>.md`. No implementation. | The idea is settled and you need a reviewable spec of what users get, with acceptance criteria, before deciding how to build it. |
+| | `plan` | Implementation plan in `docs/plans/<slug>.md`. Data shape first, one section per PR with unit, live, and rollback checks. Reads `docs/solutions/`. Stops for your go. | A PRD exists and the work spans several PRs or touches migrations, so you want the order, checks, and rollbacks agreed first. |
+| Building | `feature` | Understand, name the data shape, checkpoint, small commits, verify on the real surface. | You are building one PR of new or changed behavior, usually one section of a plan. |
+| | `architect` | Caller usage, types, and module shape before crossing a boundary. | You are about to add a new module, API route, or shared helper that other code will call. |
+| | `bug-fix` | Repro first, bisect with instrumentation, failing test, smallest fix. | Something that used to work or should work is broken, for example an invite link failing on staging. |
+| | `tdd` | Red, green, refactor in vertical slices. | The behavior has a cheap local test path, such as a pure function, a server action, or an API handler. |
+| Quality | `improve-architecture` | Ranked deepening opportunities, then dig into one. | The codebase feels tangled or slow to change and you want to know which refactor pays off most before starting one. |
+| | `review` | Spec axis plus standards axis, then try to break it. | A branch is done and you want it checked against its PRD or plan and your standards before opening the PR. |
+| | `blast-radius` | What else a small change could break, proven by running code. | You are renaming a column, changing a shared type, or tweaking an RLS policy and want proof nothing else depends on it. |
+| | `unslop` | Strip AI tells from prose. | A PR description, README, or user-facing copy reads padded or machine-written. |
+| Memory and ship | `learn` | Write the lesson to `docs/solutions/<topic>.md`. | A fix or feature taught you something non-obvious that a future plan should know, such as a migration gotcha. |
+| | `open-pr` | Why / What changed / Scope / Blast Radius / Verification. Never merges. | The branch is reviewed and verified and you are ready to open the PR against the right base branch. |
+| Index | `help` | Which skill fits right now. | You are not sure which skill to run next. |
 
-## House rules
+## Project rules: AGENTS.md and HOUSE_RULES.md
 
-Each skill first reads **`HOUSE_RULES.md` at the project root** if it exists, and it wins over the skill. Start from [`templates/HOUSE_RULES.md`](templates/HOUSE_RULES.md): my defaults plus a qr-manager example section.
-
-```bash
-cp ~/path/to/skills/templates/HOUSE_RULES.md ./HOUSE_RULES.md
-```
+Every skill starts by reading the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files being touched, and `HOUSE_RULES.md` if the project has one. **Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over the skill when they conflict.** Put project specifics there: base branch, merge method, deploy rules, how migrations run. `HOUSE_RULES.md` is optional; `AGENTS.md` alone is enough.
 
 Project docs the skills read and write: `docs/glossary.md`, `docs/decisions/`, `docs/prd/`, `docs/plans/`, `docs/solutions/`.
 
@@ -50,7 +46,7 @@ The repo is private, so your git must be able to clone `fplaz/skills` (for examp
 
 Or from a terminal: `claude plugin marketplace add fplaz/skills && claude plugin install fp@fplaz-skills`.
 
-Claude Code prefixes plugin skills: type `/fp:think-deep`, `/fp:tt`, `/fp:plan`, and so on. Update with `/plugin marketplace update fplaz-skills`.
+Claude Code prefixes plugin skills: type `/fp:think-deep`, `/fp:plan`, and so on. Update with `/plugin marketplace update fplaz-skills`.
 
 Per project instead of globally: install with `--scope project` so it is recorded in `.claude/settings.json`.
 
@@ -64,15 +60,11 @@ git clone git@github.com:fplaz/skills.git ~/.cursor/plugins/local/fp
 git -C ~/.cursor/plugins/local/fp pull
 ```
 
-Then run **Developer: Reload Window** and check **Customize** for the skills. Type `/think-deep`, `/tt`, `/plan`, and so on in Agent chat.
+Then run **Developer: Reload Window** and check **Customize** for the skills. Type `/think-deep`, `/plan`, and so on in Agent chat.
 
 Team marketplace import from a private repo also works on Cursor Teams (Dashboard, Settings, Plugins, Import from Repo), but private-repo auth has had bugs. Use the local folder if it fails.
 
 Per project without a plugin: copy chosen skills into the project's `.cursor/skills/` (Cursor) or `.claude/skills/` (Claude Code).
-
-## Why `tt` is its own skill
-
-Neither tool supports skill aliases. `tt` is a two-line skill that tells the agent to read and follow `think-deep`. It works the same in both tools.
 
 ## Credits
 

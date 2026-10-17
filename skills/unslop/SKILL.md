@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Unslop
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 Rewrite the target text. Keep every fact. Cut everything else.
 

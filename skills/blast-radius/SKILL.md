@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Blast Radius
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 1. State the change in one sentence and what you believe makes it safe.
 2. Find every consumer: grep for the symbol, string literals, config keys, DB columns, env vars, API routes, generated types, and other repos or jobs that call it. Include migrations, RLS policies, and cron or webhook paths.

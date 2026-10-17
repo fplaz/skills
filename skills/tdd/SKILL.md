@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # TDD
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 1. Agree the seams with the user if unclear: which public interface the tests drive. Test behavior through it, never internals.
 2. Work in **vertical slices**, one behavior at a time. Do not write all the tests up front.

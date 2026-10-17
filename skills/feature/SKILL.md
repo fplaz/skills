@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Feature
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 1. **Understand first.** Read the subsystem and explain in a few lines how it works today before changing it. If there is a plan, work only its current PR section.
 2. **Name the data shape** before writing logic: types, tables, states. Write it in your reply.

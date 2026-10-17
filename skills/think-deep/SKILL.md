@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Think Deep
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 Goal: shared understanding, not a document. You are done when neither of you can name an open question that changes what gets built.
 

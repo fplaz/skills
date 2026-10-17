@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 The workflow, in order:
 
-1. `think-deep` (or `tt`). Get interviewed until the idea has no open gaps.
+1. `think-deep`. Get interviewed until the idea has no open gaps.
 2. `prd`. Write the product requirements. No implementation.
 3. `plan`. Turn the PRD into one section per PR. Stops for your go.
 4. `feature` or `bug-fix`. Build one PR. `architect` and `tdd` are called from inside them.
@@ -20,6 +20,6 @@ Situational: `improve-architecture` (find deepening opportunities), `blast-radiu
 
 Small change of one or two files with an obvious approach? Skip steps 1 to 3.
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 Look at what the user is trying to do, name the one skill that fits, and give them the exact line to type.

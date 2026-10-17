@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Learn
 
-**House rules first.** If `HOUSE_RULES.md` exists at the project root, read it before anything else. Where it conflicts with this skill, it wins.
+**Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
 Only write lessons that would change a future decision. Skip the obvious.
 
@@ -24,5 +24,5 @@ Only write lessons that would change a future decision. Skip the obvious.
 ```
 
 4. If the rule is something the repo can enforce (a lint rule, a type, a test, a CI check), propose that instead of or in addition to the note. Structure beats docs.
-5. If the rule is a standing project rule, propose adding it to `HOUSE_RULES.md`.
+5. If the rule is a standing project rule, propose adding it to `AGENTS.md` or `HOUSE_RULES.md`.
 6. Print the path. Do not commit unless asked; suggest including it in the current PR.
