@@ -1,0 +1,12 @@
+{
+  "name": "fplaz-skills",
+  "owner": { "name": "Fernando Plaz", "email": "fplazrivero@gmail.com" },
+  "metadata": { "description": "Fernando Plaz's personal skills marketplace" },
+  "plugins": [
+    {
+      "name": "fp",
+      "source": "./",
+      "description": "Personal engineering workflow: think-deep -> prd -> plan -> feature/bug-fix -> review -> open-pr -> learn."
+    }
+  ]
+}
