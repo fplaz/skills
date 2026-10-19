@@ -1,10 +1,10 @@
 ---
-name: prd
+name: create-prd
 description: Write a product/functional PRD like a product manager would, saved to docs/prd/<slug>.md. No implementation detail. Run after think-deep, before plan.
 disable-model-invocation: true
 ---
 
-# PRD
+# Create PRD
 
 **Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 
@@ -18,7 +18,7 @@ Write `docs/prd/<slug>.md` with these sections. Drop a section only if it truly 
 4. **User stories and flows.** "As a <role>, I want <x> so that <y>." Then the main flows step by step, including the unhappy paths.
 5. **Functional requirements.** Numbered (FR-1, FR-2...). Observable behavior only.
 6. **UX states and edge cases.** Empty, loading, error, permission denied, limits, concurrent edits, already-signed-in, expired links. Use the project's glossary terms.
-7. **Acceptance criteria.** Checkable statements per FR. These become the review's spec axis.
+7. **Acceptance criteria.** Checkable statements per FR. These become the checks `plan` maps to PRs and `implement` self-reviews against.
 8. **Success metrics.** How you will know it worked after launch.
 9. **Open questions.** With an owner or a proposed default.
 

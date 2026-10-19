@@ -1,6 +1,6 @@
 ---
 name: think-deep
-description: Interview the user one question at a time until a plan or idea has no open gaps, then record decisions and terms in docs. Run before prd.
+description: Interview the user one question at a time until a plan or idea has no open gaps, then record decisions and terms in docs. Run before create-prd.
 disable-model-invocation: true
 ---
 
@@ -19,4 +19,4 @@ Goal: shared understanding, not a document. You are done when neither of you can
 7. When the tree is closed, write:
    - New or changed terms to `docs/glossary.md` (term, one-line definition, what it is not).
    - Each hard-to-reverse decision to `docs/decisions/NNNN-<slug>.md` (context, decision, alternatives rejected, consequences). Skip trivial ones.
-8. End with a five-line summary and offer the next step: `prd`.
+8. End with a five-line summary and offer the next step: `create-prd`.

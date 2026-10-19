@@ -12,14 +12,14 @@ The plan is the deliverable. Do not implement. No product code, no migrations, n
 
 ## 0. Check the mode
 
-- **Claude Code plan mode** (a system reminder says plan mode is active and names a plan file). The harness blocks every other write. Build the plan in that file with the template below and finish with `ExitPlanMode`, never a text "ok?". After the user approves, first save the same content to `docs/plans/<slug>.md`, then stop and offer `feature` for PR 1. Approval accepts the plan. It is not a go to build unless the user says so.
+- **Claude Code plan mode** (a system reminder says plan mode is active and names a plan file). The harness blocks every other write. Build the plan in that file with the template below and finish with `ExitPlanMode`, never a text "ok?". After the user approves, first save the same content to `docs/plans/<slug>.md`, then stop and offer `implement` for PR 1. Approval accepts the plan. It is not a go to build unless the user says so.
 - **Cursor Plan mode.** Same flow with Cursor's plan file. After the user accepts, save it to `docs/plans/<slug>.md`.
 - **Normal mode.** Stay read-only by discipline. Write only `docs/plans/<slug>.md`. For a large or risky change, mention once that plan mode (Shift+Tab) enforces read-only, then continue.
 
 ## 1. Gate
 
-1. One or two files with an obvious approach: say so, skip the plan, suggest `feature` or `bug-fix`.
-2. No PRD and the work spans several PRs: suggest `prd` first. If the user wants to go on, plan from the conversation and say so in the plan's Source line.
+1. One or two files with an obvious approach: say so, skip the plan, suggest `implement` or `bug-fix`.
+2. No PRD and the work spans several PRs: suggest `create-prd` first. If the user wants to go on, plan from the conversation and say so in the plan's Source line.
 
 ## 2. Read the inputs
 
@@ -109,7 +109,7 @@ Source: `docs/prd/<slug>.md` · Status: draft · <date>
 - [ ] perf: <only when the PRD names a performance target; metric, baseline, failing number>.
 - [ ] rollback: <how to undo. For migrations, the down path and whether data survives.>
 
-**Risk.** <What else this could break. Run `blast-radius` if shared types, columns, or policies change.>
+**Risk.** <What else this could break. Run `check-blast-radius` if shared types, columns, or policies change.>
 
 ## Test strategy
 
@@ -155,4 +155,4 @@ Fix what fails before you reply.
 
 ## 9. Hand back
 
-Post the plan path, the PRs in order with dependencies, the open questions that need the user, and what stays unproven. Then stop. In plan mode, ask for approval with `ExitPlanMode`. Build only on the user's explicit go, one PR at a time with `feature`, and tick the plan's boxes as each piece of evidence exists.
+Post the plan path, the PRs in order with dependencies, the open questions that need the user, and what stays unproven. Then stop. In plan mode, ask for approval with `ExitPlanMode`. Build only on the user's explicit go, one PR at a time with `implement`, and tick the plan's boxes as each piece of evidence exists.

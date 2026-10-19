@@ -1,10 +1,10 @@
 ---
-name: blast-radius
+name: check-blast-radius
 description: For a small-looking change, find what else it could break, and prove the safety claim by running code rather than asserting it.
 disable-model-invocation: true
 ---
 
-# Blast Radius
+# Check Blast Radius
 
 **Project rules first.** Read the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files you touch, and `HOUSE_RULES.md` if present. Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over this skill when they conflict.
 

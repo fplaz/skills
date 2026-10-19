@@ -6,7 +6,7 @@
     {
       "name": "fp",
       "source": "./",
-      "description": "Personal engineering workflow: think-deep -> prd -> plan -> feature/bug-fix -> review -> open-pr -> learn."
+      "description": "Personal engineering workflow: think-deep -> create-prd -> plan -> implement/bug-fix -> learn."
     }
   ]
 }
