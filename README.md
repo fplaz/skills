@@ -27,6 +27,8 @@ think-deep -> prd -> plan -> feature | bug-fix -> review -> open-pr -> learn
 | | `open-pr` | Why / What changed / Scope / Blast Radius / Verification. Never merges. | The branch is reviewed and verified and you are ready to open the PR against the right base branch. |
 | Index | `help` | Which skill fits right now. | You are not sure which skill to run next. |
 
+**Tip for `plan` in Claude Code.** Enter plan mode (Shift+Tab) before running `/fp:plan`, so the harness keeps the session read-only while it plans. Optionally set `"plansDirectory": "docs/plans"` in the project's `.claude/settings.json` so plan-mode files land in the repo instead of `~/.claude/plans/`.
+
 ## Project rules: AGENTS.md and HOUSE_RULES.md
 
 Every skill starts by reading the project's root `AGENTS.md`, any nested `AGENTS.md` closer to the files being touched, and `HOUSE_RULES.md` if the project has one. **Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over the skill when they conflict.** Put project specifics there: base branch, merge method, deploy rules, how migrations run. `HOUSE_RULES.md` is optional; `AGENTS.md` alone is enough.
