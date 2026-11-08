@@ -29,10 +29,10 @@ Decide this at the start, but do not ask about it until the end.
 ## Glossary and decisions: suggest, never write unasked
 
 Keep two running lists as the interview goes:
-- **Glossary suggestions**: new terms or changed definitions (term, one-line definition, what it is not).
+- **Glossary suggestions**: new terms or changed definitions, in the glossary's entry shape (`### Term`, then **Means.**, **Not.**, **In code.** if it exists yet, **Status.** reviewed). Also flag synonyms (two names for one concept) and overloaded words (one name for two concepts), with a proposed resolution.
 - **Decision suggestions**: hard-to-reverse choices (context, decision, alternatives rejected, consequences). Skip trivial ones.
 
-At the end, show both lists and ask which to apply. Write only the approved ones: terms to `docs/glossary.md`, decisions to `docs/decisions/NNNN-<slug>.md` (numbered from the highest existing file).
+At the end, show both lists and ask which to apply. Write only the approved ones: terms under `## Terms` in `docs/glossary.md` (alphabetical), open ambiguities under `## Ambiguities`, decisions to `docs/decisions/NNNN-<slug>.md` (numbered from the highest existing file).
 
 ## Conclusions
 
