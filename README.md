@@ -1,6 +1,6 @@
 # fp skills
 
-My personal agent skills for Claude Code and Cursor.
+My personal agent skills for Claude Code, Cursor, and Codex.
 
 ## Quick start
 
@@ -103,9 +103,22 @@ On Cursor Teams you can also import it into a team marketplace (Dashboard, Setti
 
 Per project without a plugin: copy chosen skills into the project's `.cursor/skills/` (Cursor) or `.claude/skills/` (Claude Code).
 
+### Codex
+
+Codex reads `.codex-plugin/plugin.json` and the marketplace in `.agents/plugins/marketplace.json`. From a terminal:
+
+```bash
+codex plugin marketplace add fplaz/skills
+codex plugin add fp@fplaz-skills
+```
+
+Or in the Codex app: open **Plugins**, click the arrow next to **Create**, choose **Add marketplace**, enter `fplaz/skills` with ref `main`, then install **fp**. Restart Codex after installing.
+
+Codex invokes skills with `$`: type `$fp-init`, `$think-deep`, `$create-prd`, `$architect`, `$check-impact`, `$learn`, `$unslop`.
+
 ### Updating
 
-1. Pull the new version: `/plugin marketplace update fplaz-skills` in Claude Code, or `git -C ~/.cursor/plugins/local/fp pull` and **Developer: Reload Window** in Cursor.
+1. Pull the new version: `/plugin marketplace update fplaz-skills` in Claude Code, `git -C ~/.cursor/plugins/local/fp pull` and **Developer: Reload Window** in Cursor, or `codex plugin marketplace upgrade fplaz-skills` and a restart in Codex.
 2. Re-run `fp-init` in each project to refresh the `AGENTS.md` block.
 
 ## Credits

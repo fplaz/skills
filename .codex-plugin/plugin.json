@@ -1,0 +1,38 @@
+{
+  "name": "fp",
+  "version": "0.5.0",
+  "description": "Fernando Plaz's personal engineering workflow: fp-init, think-deep, create-prd, architect, check-impact, learn, unslop. Linear-aware.",
+  "author": {
+    "name": "Fernando Plaz"
+  },
+  "homepage": "https://github.com/fplaz/skills",
+  "repository": "https://github.com/fplaz/skills",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "prd",
+    "architecture",
+    "design-principles",
+    "agents-md",
+    "linear"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "fp skills",
+    "shortDescription": "Personal engineering workflow: PRDs, designs, impact checks, and lessons",
+    "longDescription": "fp-init sets up docs/ and the fp rules in AGENTS.md. think-deep settles fuzzy ideas, create-prd writes requirements, architect writes design docs, check-impact finds what a change could break, unslop cleans prose, and learn records lessons. Linear-aware.",
+    "developerName": "Fernando Plaz",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/fplaz/skills",
+    "defaultPrompt": [
+      "Set up this project with fp-init",
+      "Write a PRD for this feature",
+      "Check the impact of this change"
+    ]
+  }
+}
