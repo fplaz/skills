@@ -11,7 +11,6 @@
 **Means.** One line, in domain language.
 **Not.** What it is often confused with, or what it does not cover.
 **In code.** `Symbol`, table, or enum, with `path`.
-**Status.** seeded | reviewed
 -->
 
 ## Ambiguities

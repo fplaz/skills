@@ -29,7 +29,7 @@ Decide this at the start, but do not ask about it until the end.
 ## Glossary: suggest, never write unasked
 
 Keep a running list as the interview goes:
-- **Glossary suggestions**: new terms or changed definitions, in the glossary's entry shape (`### Term`, then **Means.**, **Not.**, **In code.** if it exists yet, **Status.** reviewed). Also flag synonyms (two names for one concept) and overloaded words (one name for two concepts), with a proposed resolution.
+- **Glossary suggestions**: new terms or changed definitions, in the glossary's entry shape (`### Term`, then **Means.**, **Not.**, **In code.** if it exists yet). Also flag synonyms (two names for one concept) and overloaded words (one name for two concepts), with a proposed resolution.
 At the end, show the list and ask which to apply. Write only the approved ones: terms under `## Terms` in `docs/glossary.md` (alphabetical), open ambiguities under `## Ambiguities`.
 
 Decisions go in the conclusions below, not in a separate file.
