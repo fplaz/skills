@@ -1,12 +1,17 @@
 {
   "name": "fplaz-skills",
-  "owner": { "name": "Fernando Plaz", "email": "fplazrivero@gmail.com" },
-  "metadata": { "description": "Fernando Plaz's personal skills marketplace" },
+  "owner": {
+    "name": "Fernando Plaz",
+    "email": "fplazrivero@gmail.com"
+  },
+  "metadata": {
+    "description": "Fernando Plaz's personal skills marketplace"
+  },
   "plugins": [
     {
       "name": "fp",
       "source": "./",
-      "description": "Personal engineering workflow: think-deep -> create-prd -> plan -> implement/bug-fix -> learn."
+      "description": "Personal engineering workflow: fp-init -> think-deep -> create-prd -> architect -> plan mode -> learn, plus check-impact."
     }
   ]
 }

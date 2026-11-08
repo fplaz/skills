@@ -1,14 +1,26 @@
 {
   "name": "fp",
   "displayName": "fp skills",
-  "version": "0.1.0",
-  "description": "Fernando Plaz's personal engineering workflow: think-deep, create-prd, plan, implement or bug-fix, learn.",
-  "author": { "name": "Fernando Plaz" },
+  "version": "0.2.0",
+  "description": "Fernando Plaz's personal engineering workflow: fp-init, think-deep, create-prd, architect, check-impact, learn.",
+  "author": {
+    "name": "Fernando Plaz"
+  },
   "homepage": "https://github.com/fplaz/skills",
   "repository": "https://github.com/fplaz/skills",
   "license": "MIT",
-  "keywords": ["workflow", "planning", "prd", "bug-fix", "architecture"],
+  "keywords": [
+    "workflow",
+    "prd",
+    "architecture",
+    "design-principles",
+    "agents-md"
+  ],
   "category": "developer-tools",
-  "tags": ["workflow", "planning", "review"],
+  "tags": [
+    "workflow",
+    "planning",
+    "docs"
+  ],
   "skills": "./skills/"
 }
