@@ -1,6 +1,6 @@
 ---
 name: fp-init
-description: Set up a project for the fp skills - create docs/ (only glossary.md and patterns/ tracked), seed the glossary with obvious domain terms and ambiguities from the code (after approval), add the fp docs map, design principles, and working rules to AGENTS.md, and point Claude Code plans at docs/plans. Migrates older fp setups. Safe to re-run.
+description: Set up a project for the fp skills - create docs/ (only glossary.md and lessons/ tracked), seed the glossary with obvious domain terms and ambiguities from the code (after approval), add the fp docs map, design principles, and working rules to AGENTS.md, and point Claude Code plans at docs/plans. Migrates older fp setups. Safe to re-run.
 disable-model-invocation: true
 ---
 
@@ -10,8 +10,10 @@ Run from the repository root (`git rev-parse --show-toplevel`). Every step is id
 
 ## 1. Migrate an older setup
 
-- `docs/solutions/` exists: move it to `docs/patterns/` (`git mv` if tracked, plain `mv` otherwise). If `docs/patterns/` already exists too, stop and ask how to merge them.
+- `docs/solutions/` or `docs/patterns/` exists (older names): move it to `docs/lessons/` (`git mv` if tracked, plain `mv` otherwise). If more than one of them exists, stop and ask how to merge them.
+- `.gitignore` has a `!/docs/patterns/` line: remove it. Step 3 adds `!/docs/lessons/`.
 - `.gitignore` has a bare `/docs/` (or `docs/`) line from an older fp-init: remove it. Step 3 adds the new rules.
+- `docs/decisions/` exists (no longer used): leave it as is and mention it in the report. Never delete it.
 
 ## 2. docs/
 
@@ -19,8 +21,7 @@ Create whatever is missing:
 
 ```
 docs/glossary.md             # tracked. Created from glossary-template.md in step 5
-docs/patterns/               # tracked (git picks it up once the first file lands)
-docs/decisions/              # local
+docs/lessons/                # tracked (git picks it up once the first file lands)
 docs/think-deep-sessions/    # local
 docs/prd/                    # local
 docs/designs/                # local
@@ -29,19 +30,19 @@ docs/plans/                  # local
 
 Do not overwrite existing files.
 
-## 3. Track only glossary and patterns
+## 3. Track only glossary and lessons
 
 The rules to have in `.gitignore`, in this order:
 
 ```
 /docs/*
 !/docs/glossary.md
-!/docs/patterns/
+!/docs/lessons/
 ```
 
-1. If `git ls-files docs` lists files outside `docs/glossary.md` and `docs/patterns/`, the project already tracks other docs. Stop this step and ask the user how to proceed. Do not ignore tracked files.
+1. If `git ls-files docs` lists files outside `docs/glossary.md` and `docs/lessons/`, the project already tracks other docs. Stop this step and ask the user how to proceed. Do not ignore tracked files.
 2. Otherwise add whichever of the three lines are missing (create `.gitignore` if needed).
-3. Check the result: `git check-ignore -q docs/prd/x.md` must succeed, and `git check-ignore -q docs/glossary.md` and `git check-ignore -q docs/patterns/x.md` must fail.
+3. Check the result: `git check-ignore -q docs/prd/x.md` must succeed, and `git check-ignore -q docs/glossary.md` and `git check-ignore -q docs/lessons/x.md` must fail.
 
 ## 4. AGENTS.md
 

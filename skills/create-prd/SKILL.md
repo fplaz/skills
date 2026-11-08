@@ -1,6 +1,6 @@
 ---
 name: create-prd
-description: Write a product/functional PRD like a product manager would, on a Linear issue or in docs/prd/<slug>.md. No implementation detail. Refines rough requirements with think-deep first when needed.
+description: Write a product/functional PRD like a product manager would, on a Linear issue or in docs/prd/<YYYY-MM-DD>-<slug>.md. No implementation detail. Refines rough requirements with think-deep first when needed.
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,7 @@ Project rules in `AGENTS.md` (root and nested) take precedence over this skill w
 
 - **A Linear issue was mentioned** (an ID like `ENG-123` or a URL): read its description and all comments, including any `think-deep` conclusions.
 - Otherwise use the conversation or the text the user gave.
-- Also read `docs/glossary.md` and `docs/decisions/`. Treat docs and issues as possibly stale and check claims against the code.
+- Also read `docs/glossary.md`. Treat docs and issues as possibly stale and check claims against the code.
 
 ## 2. Refine if it is rough
 
@@ -27,7 +27,7 @@ Do not re-interview on anything already settled.
 Use these sections. Drop a section only if it truly has nothing.
 
 ```markdown
-> Snapshot from <YYYY-MM-DD> at commit `<short sha>`. Reference only: the code may have changed since, and plans change during implementation. The codebase is the source of truth.
+> Snapshot at commit `<short sha>`. Reference only: the code may have changed since, and plans change during implementation. The codebase is the source of truth.
 ```
 
 1. **Problem.** Who hurts, how, and why now. Two to four sentences.
@@ -48,6 +48,15 @@ Rules:
 ## 4. Save it
 
 - **Linear issue given**: replace the issue description with the PRD. The original text stays in the issue history.
-- **No issue**: ask whether to create a Linear issue (ask which team) or write `docs/prd/<slug>.md`. If no Linear tools are available, use the file without asking.
+- **No issue**: ask whether to create a Linear issue (ask which team) or write `docs/prd/<YYYY-MM-DD>-<slug>.md`. If no Linear tools are available, use the file without asking.
+- **File format**: name it with the creation date and start it with front matter. If a PRD for this slug already exists (`*-<slug>.md`), update it, keep its name and `created`, and set `updated` to today.
+
+```yaml
+---
+created: <YYYY-MM-DD>
+updated: <YYYY-MM-DD>
+description: <One line: what this PRD is for.>
+---
+```
 
 End by printing where the PRD went. Then suggest the next step: `architect` when the work adds or reshapes modules, or planning the build in PRs when the shape is obvious. Either way, every FR and AC must be covered.

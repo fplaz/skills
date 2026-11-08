@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Design how a feature or module is shaped before planning it - ground in the current code, weigh at least two whole-shape alternatives, then write docs/designs/<slug>.md with a module map, sketched signatures, data model, and flow diagrams. No implementation. Run after create-prd, before planning the build.
+description: Design how a feature or module is shaped before planning it - ground in the current code, weigh at least two whole-shape alternatives, then write docs/designs/<YYYY-MM-DD>-<slug>.md with a module map, sketched signatures, data model, and flow diagrams. No implementation. Run after create-prd, before planning the build.
 disable-model-invocation: true
 ---
 
@@ -8,14 +8,14 @@ disable-model-invocation: true
 
 Project rules in `AGENTS.md` (root and nested) take precedence over this skill when they conflict.
 
-The design document is the deliverable. Do not write product code, migrations, branches, or commits. The only files you write are `docs/designs/<slug>.md` and any `docs/decisions/` entries the user approves.
+The design document is the deliverable. Do not write product code, migrations, branches, or commits. The only file you write is `docs/designs/<YYYY-MM-DD>-<slug>.md`, plus glossary entries the user approves.
 
 This skill decides **how the system is shaped**. It does not restate requirements (that is `create-prd`) or order the work into PRs (that is planning). Write for a reader that is an agent who sees only this file and the files it opens.
 
 ## 1. Read the inputs
 
-- The PRD: a Linear issue the user mentions (read its description and comments), or `docs/prd/<slug>.md`. List every FR. Each must be served by some part of the design. With no PRD, design from the conversation and say so in the Source line.
-- `docs/glossary.md`, `docs/decisions/`, and the relevant `docs/patterns/`. Use glossary terms. Respect recorded decisions, or name the one you propose to change.
+- The PRD: a Linear issue the user mentions (read its description and comments), or a file in `docs/prd/`. List every FR. Each must be served by some part of the design. With no PRD, design from the conversation and say so in the Source line.
+- `docs/glossary.md`, the relevant `docs/lessons/`, and earlier `docs/designs/` and `docs/think-deep-sessions/` on the same area. Use glossary terms. Respect choices recorded there, or name the one you propose to change.
 - Treat the PRD and docs as snapshots that may be stale. Where they disagree with the code, the code wins; say so in the design.
 
 ## 2. Ground in the current code
@@ -39,22 +39,28 @@ Screen every candidate for these red flags:
 
 Pick one and say why. Ask the user only for product or preference calls, one question at a time, with your recommendation. Check facts by reading or running read-only commands instead of asking.
 
-## 4. Write `docs/designs/<slug>.md`
+## 4. Write `docs/designs/<YYYY-MM-DD>-<slug>.md`
 
-Keep the headings in order. Drop a section only if it truly has nothing.
+Use the creation date in the file name. If a design for this slug already exists (`*-<slug>.md`), update it instead: keep its name and `created`, and set `updated` to today. Keep the headings in order. Drop a section only if it truly has nothing.
 
 ````markdown
+---
+created: <YYYY-MM-DD>
+updated: <YYYY-MM-DD>
+description: <One line on what this file covers.>
+---
+
 # <Feature> design
 
-Source: <Linear issue or `docs/prd/<slug>.md`> · Status: draft
+Source: <Linear issue or `docs/prd/<file>.md`> · Status: draft
 
-> Snapshot from <YYYY-MM-DD> at commit `<short sha>`. Reference only: the code may have changed since, and plans change during implementation. The codebase is the source of truth.
+> Snapshot at commit `<short sha>`. Reference only: the code may have changed since, and plans change during implementation. The codebase is the source of truth.
 
 ## Summary
 <Under ten lines. The shape in plain words, and why it beats the alternatives.>
 
 ## Context and constraints
-<Constraints from AGENTS.md, decisions, and patterns that shape this design.>
+<Constraints from AGENTS.md, earlier designs and sessions, and lessons that shape this design.>
 
 ## Current state
 <How the affected subsystems work today, with `path` and `symbol`.>
@@ -104,9 +110,11 @@ type InviteError = { kind: "already_member" } | { kind: "seat_limit"; limit: num
 
 Diagram rules: Mermaid only, and only the diagrams that earn their place. Every diagram gets prose next to it, because a planner reads the text. Use the same module names in diagrams, contracts, and prose.
 
-## 5. Suggest decisions
+## 5. Glossary and impact
 
-List each hard-to-reverse choice (a boundary, an ownership rule, a storage choice) as a suggested decision (context, decision, alternatives rejected, consequences) and ask which to record. Write only the approved ones to `docs/decisions/NNNN-<slug>.md`, numbered from the highest existing file, and link them from the design. Suggest glossary terms the same way; never edit `docs/glossary.md` without approval.
+Hard-to-reverse choices (a boundary, an ownership rule, a storage choice) stay in the design, under Options weighed and Rejected alternatives. Make each one explicit: what was chosen, why, and what lost.
+
+Suggest new glossary terms in the glossary's entry shape and ask which to add. Never edit `docs/glossary.md` without approval.
 
 If a contract changes a shared type, column, config key, or policy, run `check-impact` on the proposed change and put its verdict under Failure modes or Open questions.
 
@@ -115,6 +123,6 @@ If a contract changes a shared type, column, config key, or policy, run `check-i
 - Every FR appears in Requirement coverage.
 - Every module in the map has a contract block, and every contract belongs to a module in the map.
 - No placeholder text left. No implementation beyond stubs.
-- No changes outside `docs/designs/` and approved `docs/decisions/` or glossary entries.
+- No changes outside `docs/designs/` and approved glossary entries.
 
-Reply with the design path, the chosen shape in two lines, the decisions recorded, and the open questions. Then suggest planning the build: slicing the design into PRs in landing order. If planning or building later runs into repeated friction with this shape, come back here and revise the design instead of patching around it.
+Reply with the design path, the chosen shape in two lines, the hard-to-reverse choices, and the open questions. Then suggest planning the build: slicing the design into PRs in landing order. If planning or building later runs into repeated friction with this shape, come back here and revise the design instead of patching around it.

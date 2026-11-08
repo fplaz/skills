@@ -18,13 +18,13 @@ fp-init (once per project) -> think-deep -> create-prd -> architect -> plan -> b
 | Skill | What it does | When to use it |
 |---|---|---|
 | `fp-init` | Sets up the project: `docs/` folders, a seeded glossary, the fp block in `AGENTS.md`, and the Claude Code plans folder. See [What fp-init sets up](#what-fp-init-sets-up). | Once per project, and again after updating the pack. |
-| `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Suggests glossary terms, ambiguities, and decisions, and writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
-| `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD (the original stays in the issue history), or writes a new issue or `docs/prd/<slug>.md`. | You need a reviewable spec before designing or planning the build. |
-| `architect` | Design doc in `docs/designs/<slug>.md` from a Linear issue or local PRD: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Suggests decisions for `docs/decisions/`. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
+| `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Records decisions in its conclusions. Suggests glossary terms and ambiguities, and writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
+| `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD (the original stays in the issue history), or writes a new issue or `docs/prd/<YYYY-MM-DD>-<slug>.md`. | You need a reviewable spec before designing or planning the build. |
+| `architect` | Design doc in `docs/designs/<YYYY-MM-DD>-<slug>.md` from a Linear issue or local PRD: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices and the alternatives that lost. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
-| `learn` | Writes the lesson as a pattern in `docs/patterns/<topic>.md` and offers to commit it. | A fix or feature taught you something non-obvious that future work should know. |
+| `learn` | Records lessons in `docs/lessons/<YYYY-MM-DD>-<topic>.md`. `learn about <X>` drafts that lesson; plain `learn` proposes what is worth recording and you pick. Shows each draft and writes only after you approve, then offers to commit. | A fix or feature taught you something non-obvious that future work should know. |
 
-Planning and building use your harness's own planning flow, guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/patterns/`, `docs/glossary.md`, and `docs/decisions/`, so lessons apply without running a skill.
+Planning and building use your harness's own planning flow, guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/lessons/`, `docs/glossary.md`, and earlier sessions and designs, so lessons apply without running a skill.
 
 **Invocation.** Most skills are user-invoked only (`disable-model-invocation: true`), so they never fire on their own. Two can also be invoked by the agent: `think-deep`, so `create-prd` can call it to refine a rough requirement, and `check-impact`, so planning or `architect` can call it when a shared type or column changes.
 
@@ -39,8 +39,7 @@ Every step is safe to re-run. `fp-init` checks first, changes only what is missi
 | Path | Git | Holds |
 |---|---|---|
 | `docs/glossary.md` | tracked | Project terms and open ambiguities. Changed only with your approval. |
-| `docs/patterns/` | tracked | Rules learned from real problems, written by `learn`. |
-| `docs/decisions/` | local | Hard-to-reverse decisions, added only with your approval. |
+| `docs/lessons/` | tracked | Rules learned from real problems, written by `learn`. |
 | `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` | local | Interview conclusions, PRDs, designs, and plans. They do not exist in a fresh clone or a new git worktree. |
 
 The `.gitignore` rules that do this:
@@ -48,10 +47,22 @@ The `.gitignore` rules that do this:
 ```
 /docs/*
 !/docs/glossary.md
-!/docs/patterns/
+!/docs/lessons/
 ```
 
 If the project already tracks other files under `docs/`, `fp-init` stops and asks instead of ignoring them.
+
+Every file in `docs/` except `glossary.md` is named `YYYY-MM-DD-<slug>.md` after its creation date and starts with front matter:
+
+```yaml
+---
+created: 2026-11-08
+updated: 2026-11-08
+description: Invite flow for team billing.
+---
+```
+
+Skills set `updated` on every edit and never rename a file when updating it. The convention is also in the `AGENTS.md` block, so ordinary sessions follow it.
 
 ### Glossary
 
@@ -75,7 +86,7 @@ On a new project, `fp-init` reads the schema, models, core types, enums, and rol
 
 A block between `<!-- fp:start -->` and `<!-- fp:end -->` markers, with three parts:
 
-- **Project docs.** The docs map above, the glossary and decision approval rules, and the reminder that docs are snapshots.
+- **Project docs.** The docs map above, the file naming and front matter convention, the glossary approval rule, respecting recorded choices, and the reminder that docs are snapshots.
 - **Design principles.** Call site first, data shape first, deep modules, invalid states unrepresentable, validate at the edges, one concept in one place, no boolean flag parameters, and wait for the third case before abstracting.
 - **Working rules.** Understand before changing, reproduce bugs with evidence, failing test first when cheap, verify on the real surface, prove shared changes are safe, keep diffs in scope, and don't push, open PRs, or merge unless asked.
 
@@ -87,11 +98,11 @@ In projects that use Claude Code, `fp-init` sets `"plansDirectory": "docs/plans"
 
 ### Migrating older setups
 
-`fp-init` moves `docs/solutions/` to `docs/patterns/` and replaces an old bare `/docs/` ignore line with the rules above.
+`fp-init` moves `docs/solutions/` or `docs/patterns/` to `docs/lessons/` and replaces old ignore lines with the rules above.
 
 ## Docs are snapshots
 
-Every session conclusion, PRD, design, and pattern is stamped with its date and commit. The codebase is the source of truth: code changes over time and plans change during implementation, so docs are context to verify, not facts to trust. The commit stamp lets you check what changed since, for example `git log <sha>.. -- <path>`.
+Every session conclusion, PRD, design, and lesson carries its dates in the front matter and the commit it was written at. The codebase is the source of truth: code changes over time and plans change during implementation, so docs are context to verify, not facts to trust. The commit stamp lets you check what changed since, for example `git log <sha>.. -- <path>`.
 
 ## Project rules: AGENTS.md
 
@@ -137,6 +148,6 @@ Ideas adapted, in my own words, from these MIT-licensed projects:
 
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`) and blast-radius (now `check-impact`), plus the feature and bug-fix playbooks, condensed into the `AGENTS.md` rules from `fp-init`.
 - [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock. grill-me / grill-with-docs (now `think-deep`), to-prd (now `create-prd`), and improve-codebase-architecture (now the design principles).
-- [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step that `learn` writes to `docs/patterns/`.
+- [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step that `learn` writes to `docs/lessons/`.
 
 No files were copied verbatim. This pack is MIT licensed.
