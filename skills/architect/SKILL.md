@@ -27,6 +27,8 @@ Explain how every subsystem the design touches works today: its entry points, wh
 
 Sketch at least two **structurally different** shapes. Different module boundaries, ownership, or data flow count. Point fixes to the same shape do not. For each one, write a short paragraph and a call site showing how a real caller would use it.
 
+When the work adds a requirement to an existing design, one of the shapes must be the design you would build if the requirement had been there from day one, not one that bolts it on. If you pick the bolt-on shape, say what makes the redesign not worth it now.
+
 Compare them in a table: public surface, what it hides, caller ergonomics, data ownership, failure handling, cost to change later. Prefer the smaller interface that hides more.
 
 Screen every candidate for these red flags:
@@ -86,7 +88,7 @@ type InviteError = { kind: "already_member" } | { kind: "seat_limit"; limit: num
 ```
 
 ## Data model
-<Entities, fields, ownership, and invariants. Before and after when the schema changes. Add an `erDiagram` when relations change.>
+<Entities, fields, ownership, and invariants. Before and after when the schema changes. Add an `erDiagram` when relations change. Name every piece of state that concurrent actors (requests, jobs, workers, agents) could write. Prefer a shape where each has its own copy or a single owner before reaching for locks or queues.>
 
 ## State
 <Only when something has a lifecycle. A `stateDiagram-v2` with every transition and who triggers it.>

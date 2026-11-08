@@ -61,8 +61,8 @@ On a new project, `fp-init` reads the schema, models, core types, enums, and rol
 A block between `<!-- fp:start -->` and `<!-- fp:end -->` markers, with three parts:
 
 - **Project docs.** The docs map above, the file naming and front matter convention, the glossary approval rule, respecting recorded choices, and the reminder that docs are snapshots.
-- **Design principles.** Call site first, data shape first, deep modules, invalid states unrepresentable, validate at the edges, one concept in one place, no boolean flag parameters, and wait for the third case before abstracting.
-- **Working rules.** Understand before changing, reproduce bugs with evidence, failing test first when cheap, verify on the real surface, prove shared changes are safe, keep diffs in scope, and don't push, open PRs, or merge unless asked.
+- **Design principles.** Call site first, data shape first, deep modules, invalid states unrepresentable, validate at the edges, one concept in one place, no boolean flag parameters, wait for the third case before abstracting, prefer deleting to adding, and make operations safe to re-run.
+- **Working rules.** Understand before changing, reproduce bugs with evidence, guards only for legitimate states, test the shared premise after two failed fixes, failing test first when cheap, verify on the real surface, work in small verified units, script repetitive edits, explain any number you report, migrate callers and delete the old API in one change, prove shared changes are safe, keep diffs in scope, and don't push, open PRs, or merge unless asked.
 
 Re-running `fp-init` replaces the block with the current version and leaves the rest of `AGENTS.md` untouched. If one of your rules contradicts the block, it lists the conflict instead of editing either one.
 
@@ -112,7 +112,7 @@ Per project without a plugin: copy chosen skills into the project's `.cursor/ski
 
 Ideas adapted, in my own words, from these MIT-licensed projects:
 
-- [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`), blast-radius (now `check-impact`), and unslop (rewritten as `unslop`), plus the feature and bug-fix playbooks, condensed into the `AGENTS.md` rules from `fp-init`.
+- [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`), blast-radius (now `check-impact`), and unslop (rewritten as `unslop`), plus the feature and bug-fix playbooks and several of its principles (attack the premise, fix root causes, migrate callers then delete, build the lever, verifiable units, explain the number, subtract before you add, idempotent operations), condensed into the `AGENTS.md` rules from `fp-init`.
 - [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock. grill-me / grill-with-docs (now `think-deep`), to-prd (now `create-prd`), and improve-codebase-architecture (now the design principles).
 - [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step that `learn` writes to `docs/lessons/`.
 

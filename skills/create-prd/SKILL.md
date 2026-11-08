@@ -43,6 +43,7 @@ Use these sections. Drop a section only if it truly has nothing.
 Rules:
 - No implementation: no database tables or columns, endpoints, libraries, or file names. If you catch yourself writing implementation, move it to a short "Notes for design" list at the end.
 - Plain language a non-engineer could review.
+- When scope or UX trades off against what seems easy to build, write the requirement for the better user experience. Put the build concern in "Notes for design" or Open questions instead of shrinking the requirement.
 - Reuse terms from `docs/glossary.md`. Suggest new terms to the user; do not edit the glossary without approval.
 - Apply `unslop` to the draft before saving it.
 

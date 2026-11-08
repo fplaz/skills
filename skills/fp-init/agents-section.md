@@ -34,14 +34,22 @@ Set `updated` on every edit. Never rename a file when you update it. To find a f
 - Callers shouldn't know storage or framework details.
 - No boolean flag parameters and no long lists of optional arguments. Split the function instead.
 - Duplication is cheaper than the wrong abstraction. Wait for the third case.
+- Prefer deleting to adding. Remove dead code before building on top of it.
+- Scripts, migrations, jobs, and setup steps should be safe to re-run and reach the same end state.
 - Comment only a non-obvious why.
 
 ## Working rules
 
 - Understand before changing: read the code and say how it works today.
 - Bugs: reproduce first, find the cause with evidence (logs, rows, responses, temporary instrumentation), then make the smallest fix the evidence supports. A change that "might help" is a hypothesis, not a fix.
+- A guard (null check, try/catch, fallback) is a fix only if the state it handles is legitimate. Otherwise fix the code that produced the state.
+- If two fixes have failed, stop. Write down the assumption they share and test it directly before trying a third.
 - When there is a cheap test path, write a failing test first and watch it fail for the right reason. Test through the public interface. Mock only at system edges.
 - Verify on the real surface: run the app, hit the endpoint, use the CLI. Tests and type checks are not proof. Say what you ran and what you saw.
+- Break multi-step work into small units that each end in a check. Verify each one before starting the next.
+- For the same edit across many files, write a script or codemod instead of editing by hand, and rerun it to check.
+- Before reporting a number (speedup, latency, eval score), say what limits it and rule out that you measured something else.
+- When you replace an internal API, migrate every caller and delete the old one in the same change. No compat shims, aliases, or fallback paths unless asked.
 - Before changing a shared type, column, config key, or policy, find every consumer and prove the change is safe by running something (`check-impact` does this in depth).
 - Keep the diff in scope. Remove debug code before handing back.
 - Don't push, open PRs, or merge unless asked.
