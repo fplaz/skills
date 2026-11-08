@@ -2,31 +2,42 @@
 
 My personal agent skills for Claude Code and Cursor. One `skills/` folder, two manifests.
 
-Every skill except `check-impact` is **user-invoked only** (`disable-model-invocation: true`), so it never fires on its own. Type it when you want it. `check-impact` can also be invoked by the agent, for example from plan mode or `architect` when a shared type or column changes.
+Most skills are **user-invoked only** (`disable-model-invocation: true`), so they never fire on their own. Two can also be invoked by the agent: `think-deep` (so `create-prd` can call it to refine a rough requirement) and `check-impact` (so planning or `architect` can call it when a shared type or column changes).
 
 ## Workflow
 
 ```
-fp-init (once per project) -> think-deep -> create-prd -> architect -> plan mode -> build -> learn
+fp-init (once per project) -> think-deep -> create-prd -> architect -> plan -> build -> learn
                                                           check-impact (any time)
 ```
 
+Work usually starts from a rough Linear issue or a few lines of text. Mention the issue (`ENG-123` or its URL) when invoking `think-deep` or `create-prd` and they read it and write back to it. Without one, they ask whether to create an issue or write a local file. Without Linear tools, they write the local file.
+
 | Skill | What it does | When to use it |
 |---|---|---|
-| `fp-init` | Creates the local `docs/` folders (git-ignored), adds the fp design principles and working rules to `AGENTS.md` between `<!-- fp:start -->` / `<!-- fp:end -->` markers, and sets `plansDirectory` to `docs/plans` in `.claude/settings.json`. Safe to re-run; re-running refreshes the block. | Once per project, and again after updating the pack. |
-| `think-deep` | Interviews you one question at a time until there are no open gaps. Writes `docs/glossary.md` and `docs/decisions/` as branches close. | You have a fuzzy idea or a big feature and want every open question settled before writing anything down. |
-| `create-prd` | Product requirements in `docs/prd/<slug>.md`, with numbered FRs and acceptance criteria. No implementation. | The idea is settled and you need a reviewable spec before planning the build. |
-| `architect` | Design doc in `docs/designs/<slug>.md`: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices in `docs/decisions/`. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before plan mode slices it into PRs. |
+| `fp-init` | Creates `docs/` (only `glossary.md` and `patterns/` tracked), adds the fp docs map, design principles, and working rules to `AGENTS.md` between `<!-- fp:start -->` / `<!-- fp:end -->` markers, and in Claude Code projects sets `plansDirectory` to `docs/plans`. Migrates older setups (`docs/solutions/` to `docs/patterns/`). Safe to re-run; re-running refreshes the block. | Once per project, and again after updating the pack. |
+| `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Suggests glossary terms and decisions; writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
+| `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD, or writes a new issue or `docs/prd/<slug>.md`. | You need a reviewable spec before designing or planning the build. |
+| `architect` | Design doc in `docs/designs/<slug>.md`: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Suggests decisions for `docs/decisions/`. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
-| `learn` | Writes the lesson to `docs/solutions/<topic>.md`. | A fix or feature taught you something non-obvious that future work should know. |
+| `learn` | Writes the lesson as a pattern in `docs/patterns/<topic>.md` and offers to commit it. | A fix or feature taught you something non-obvious that future work should know. |
 
-Planning and building use the harness itself: plan mode (Shift+Tab in Claude Code), guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/solutions/`, `docs/glossary.md`, and `docs/decisions/`, so lessons apply without running a skill.
+Planning and building use your harness's own planning flow, guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/patterns/`, `docs/glossary.md`, and `docs/decisions/`, so lessons apply without running a skill.
 
-## Project rules: AGENTS.md and HOUSE_RULES.md
+## Docs are snapshots
 
-**Instructions in `AGENTS.md` and `HOUSE_RULES.md` take precedence over the skills when they conflict.** Put project specifics there: base branch, merge method, deploy rules, how migrations run. `HOUSE_RULES.md` is optional. Keep your own rules outside the fp markers in `AGENTS.md`, because `fp-init` replaces everything between them.
+Every session conclusion, PRD, design, and pattern is stamped with its date and commit. The codebase is the source of truth: code changes over time and plans change during implementation, so docs are context to verify, not facts to trust.
 
-`docs/` is local and untracked. It does not travel with the repo, so it will not exist in a fresh clone or a new git worktree.
+| Path | Git | Holds |
+|---|---|---|
+| `docs/glossary.md` | tracked | Project terms. Changed only with your approval. |
+| `docs/patterns/` | tracked | Rules learned from real problems, written by `learn`. |
+| `docs/decisions/` | local | Hard-to-reverse decisions, added only with your approval. |
+| `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` | local | Interview conclusions, PRDs, designs, and plans. They do not exist in a fresh clone or a new git worktree. |
+
+## Project rules: AGENTS.md
+
+**Instructions in `AGENTS.md` take precedence over the skills when they conflict.** Put project specifics there: base branch, merge method, deploy rules, how migrations run. Keep your own rules outside the fp markers, because `fp-init` replaces everything between them.
 
 ## Install
 
@@ -67,6 +78,6 @@ Ideas adapted, in my own words, from these MIT-licensed projects:
 
 - [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`) and blast-radius (now `check-impact`), plus the feature and bug-fix playbooks, condensed into the `AGENTS.md` rules from `fp-init`.
 - [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock. grill-me / grill-with-docs (now `think-deep`), to-prd (now `create-prd`), and improve-codebase-architecture (now the design principles).
-- [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step (`docs/solutions/`) that `learn` writes.
+- [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step that `learn` writes to `docs/patterns/`.
 
 No files were copied verbatim. This pack is MIT licensed.

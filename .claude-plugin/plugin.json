@@ -1,7 +1,7 @@
 {
   "name": "fp",
-  "version": "0.2.0",
-  "description": "Fernando Plaz's personal engineering workflow: fp-init, think-deep, create-prd, architect, check-impact, learn.",
+  "version": "0.3.0",
+  "description": "Fernando Plaz's personal engineering workflow: fp-init, think-deep, create-prd, architect, check-impact, learn. Linear-aware.",
   "author": {
     "name": "Fernando Plaz",
     "email": "fplazrivero@gmail.com"
@@ -14,6 +14,7 @@
     "prd",
     "architecture",
     "design-principles",
-    "agents-md"
+    "agents-md",
+    "linear"
   ]
 }

@@ -5,7 +5,7 @@ description: Find what a change could break beyond the code it touches, and prov
 
 # Check Impact
 
-Project rules in `AGENTS.md` (root and nested) and `HOUSE_RULES.md` take precedence over this skill when they conflict.
+Project rules in `AGENTS.md` (root and nested) take precedence over this skill when they conflict.
 
 Listing the callers is not the job. The job is the breakage grep won't show, and proof that the change is safe rather than a writeup that says so.
 
