@@ -10,10 +10,15 @@ My personal agent skills for Claude Code and Cursor. One `skills/` folder, two m
 
 ## Workflow
 
-```
-fp-init (once per project) -> think-deep -> create-prd -> architect -> plan -> build -> learn
-                                                          check-impact (any time)
-```
+Run `fp-init` once per project, then:
+
+1. `think-deep` (optional): settle a fuzzy idea or rough issue.
+2. `create-prd`: write the requirements.
+3. `architect` (optional): design the shape when the work adds or reshapes modules.
+4. Plan and build: not skills. Use your harness's own planning and build modes. The rules `fp-init` added to `AGENTS.md` guide them and point every session at `docs/lessons/`, `docs/glossary.md`, and earlier sessions and designs.
+5. `learn` (optional): record what the work taught you.
+
+Run `check-impact` any time a change touches something shared.
 
 | Skill | What it does | When to use it |
 |---|---|---|
@@ -23,8 +28,6 @@ fp-init (once per project) -> think-deep -> create-prd -> architect -> plan -> b
 | `architect` | Design doc in `docs/designs/<YYYY-MM-DD>-<slug>.md` from a Linear issue or local PRD: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices and the alternatives that lost. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
 | `learn` | Records lessons in `docs/lessons/<YYYY-MM-DD>-<topic>.md`. `learn about <X>` drafts that lesson; plain `learn` proposes what is worth recording and you pick. Shows each draft and writes only after you approve, then offers to commit. | A fix or feature taught you something non-obvious that future work should know. |
-
-Planning and building use your harness's own planning flow, guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/lessons/`, `docs/glossary.md`, and earlier sessions and designs, so lessons apply without running a skill.
 
 **Invocation.** Most skills are user-invoked only (`disable-model-invocation: true`), so they never fire on their own. Two can also be invoked by the agent: `think-deep`, so `create-prd` can call it to refine a rough requirement, and `check-impact`, so planning or `architect` can call it when a shared type or column changes.
 
