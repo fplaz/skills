@@ -2,7 +2,11 @@
 
 My personal agent skills for Claude Code and Cursor. One `skills/` folder, two manifests.
 
-Most skills are **user-invoked only** (`disable-model-invocation: true`), so they never fire on their own. Two can also be invoked by the agent: `think-deep` (so `create-prd` can call it to refine a rough requirement) and `check-impact` (so planning or `architect` can call it when a shared type or column changes).
+## Quick start
+
+1. Install the plugin (see [Install](#install)).
+2. In a project, run `fp-init` once. It sets up `docs/`, seeds the glossary, and adds the fp rules to `AGENTS.md`.
+3. Start from a rough Linear issue or a few lines of text: `think-deep ENG-123`, or `create-prd ENG-123` if the idea is already clear.
 
 ## Workflow
 
@@ -11,29 +15,83 @@ fp-init (once per project) -> think-deep -> create-prd -> architect -> plan -> b
                                                           check-impact (any time)
 ```
 
-Work usually starts from a rough Linear issue or a few lines of text. Mention the issue (`ENG-123` or its URL) when invoking `think-deep` or `create-prd` and they read it and write back to it. Without one, they ask whether to create an issue or write a local file. Without Linear tools, they write the local file.
-
 | Skill | What it does | When to use it |
 |---|---|---|
-| `fp-init` | Creates `docs/` (only `glossary.md` and `patterns/` tracked), seeds the glossary with obvious domain terms plus synonyms and overloaded words found in the code (you approve the list first), adds the fp docs map, design principles, and working rules to `AGENTS.md` between `<!-- fp:start -->` / `<!-- fp:end -->` markers, and in Claude Code projects sets `plansDirectory` to `docs/plans`. Migrates older setups (`docs/solutions/` to `docs/patterns/`). Safe to re-run; re-running refreshes the block. | Once per project, and again after updating the pack. |
-| `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Suggests glossary terms and decisions; writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
-| `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD, or writes a new issue or `docs/prd/<slug>.md`. | You need a reviewable spec before designing or planning the build. |
-| `architect` | Design doc in `docs/designs/<slug>.md`: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Suggests decisions for `docs/decisions/`. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
+| `fp-init` | Sets up the project: `docs/` folders, a seeded glossary, the fp block in `AGENTS.md`, and the Claude Code plans folder. See [What fp-init sets up](#what-fp-init-sets-up). | Once per project, and again after updating the pack. |
+| `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Suggests glossary terms, ambiguities, and decisions, and writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
+| `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD (the original stays in the issue history), or writes a new issue or `docs/prd/<slug>.md`. | You need a reviewable spec before designing or planning the build. |
+| `architect` | Design doc in `docs/designs/<slug>.md` from a Linear issue or local PRD: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Suggests decisions for `docs/decisions/`. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
 | `learn` | Writes the lesson as a pattern in `docs/patterns/<topic>.md` and offers to commit it. | A fix or feature taught you something non-obvious that future work should know. |
 
 Planning and building use your harness's own planning flow, guided by the rules `fp-init` put in `AGENTS.md`. Those rules tell every session to read `docs/patterns/`, `docs/glossary.md`, and `docs/decisions/`, so lessons apply without running a skill.
 
-## Docs are snapshots
+**Invocation.** Most skills are user-invoked only (`disable-model-invocation: true`), so they never fire on their own. Two can also be invoked by the agent: `think-deep`, so `create-prd` can call it to refine a rough requirement, and `check-impact`, so planning or `architect` can call it when a shared type or column changes.
 
-Every session conclusion, PRD, design, and pattern is stamped with its date and commit. The codebase is the source of truth: code changes over time and plans change during implementation, so docs are context to verify, not facts to trust.
+**Linear.** Mention an issue (`ENG-123` or its URL) when invoking `think-deep`, `create-prd`, or `architect`, and they read it, including comments. `think-deep` and `create-prd` also write back to it. Without an issue, they ask whether to create one (and in which team) or write a local file. Without Linear tools, they write the local file.
+
+## What fp-init sets up
+
+Every step is safe to re-run. `fp-init` checks first, changes only what is missing, and never commits.
+
+### docs/
 
 | Path | Git | Holds |
 |---|---|---|
-| `docs/glossary.md` | tracked | Project terms. Changed only with your approval. |
+| `docs/glossary.md` | tracked | Project terms and open ambiguities. Changed only with your approval. |
 | `docs/patterns/` | tracked | Rules learned from real problems, written by `learn`. |
 | `docs/decisions/` | local | Hard-to-reverse decisions, added only with your approval. |
 | `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` | local | Interview conclusions, PRDs, designs, and plans. They do not exist in a fresh clone or a new git worktree. |
+
+The `.gitignore` rules that do this:
+
+```
+/docs/*
+!/docs/glossary.md
+!/docs/patterns/
+```
+
+If the project already tracks other files under `docs/`, `fp-init` stops and asks instead of ignoring them.
+
+### Glossary
+
+One word, one meaning. The glossary has two sections:
+
+- **Terms.** One heading per term, alphabetical:
+
+  ```markdown
+  ### Lease
+  **Means.** A signed rental agreement between a tenant and an owner for one unit.
+  **Not.** An application or a reservation (see Application).
+  **In code.** `Lease` model, `leases` table (`app/models/lease.rb`).
+  **Status.** seeded
+  ```
+
+- **Ambiguities.** Unresolved cases: synonyms (two names for one concept, like `client` and `customer`) and overloaded words (one name for two concepts, like `account` meaning both a login and a billing entity).
+
+On a new project, `fp-init` reads the schema, models, core types, enums, and roles, and proposes 10 to 20 obvious domain terms plus every ambiguity it finds. You approve, change, or resolve each one before anything is written. Approved terms are marked `seeded` until you review them. It seeds only an empty glossary and never overwrites entries.
+
+### AGENTS.md block
+
+A block between `<!-- fp:start -->` and `<!-- fp:end -->` markers, with three parts:
+
+- **Project docs.** The docs map above, the glossary and decision approval rules, and the reminder that docs are snapshots.
+- **Design principles.** Call site first, data shape first, deep modules, invalid states unrepresentable, validate at the edges, one concept in one place, no boolean flag parameters, and wait for the third case before abstracting.
+- **Working rules.** Understand before changing, reproduce bugs with evidence, failing test first when cheap, verify on the real surface, prove shared changes are safe, keep diffs in scope, and don't push, open PRs, or merge unless asked.
+
+Re-running `fp-init` replaces the block with the current version and leaves the rest of `AGENTS.md` untouched. If one of your rules contradicts the block, it lists the conflict instead of editing either one.
+
+### Plans folder (Claude Code only)
+
+In projects that use Claude Code, `fp-init` sets `"plansDirectory": "docs/plans"` in `.claude/settings.json`, so plans land in the repo instead of `~/.claude/plans/`.
+
+### Migrating older setups
+
+`fp-init` moves `docs/solutions/` to `docs/patterns/` and replaces an old bare `/docs/` ignore line with the rules above.
+
+## Docs are snapshots
+
+Every session conclusion, PRD, design, and pattern is stamped with its date and commit. The codebase is the source of truth: code changes over time and plans change during implementation, so docs are context to verify, not facts to trust. The commit stamp lets you check what changed since, for example `git log <sha>.. -- <path>`.
 
 ## Project rules: AGENTS.md
 
@@ -43,8 +101,6 @@ Every session conclusion, PRD, design, and pattern is stamped with its date and 
 
 ### Claude Code
 
-The repo is private, so your git must be able to clone `fplaz/skills` (for example `gh auth login`).
-
 ```
 /plugin marketplace add fplaz/skills
 /plugin install fp@fplaz-skills
@@ -52,25 +108,28 @@ The repo is private, so your git must be able to clone `fplaz/skills` (for examp
 
 Or from a terminal: `claude plugin marketplace add fplaz/skills && claude plugin install fp@fplaz-skills`.
 
-Claude Code prefixes plugin skills: type `/fp:fp-init`, `/fp:think-deep`, `/fp:create-prd`, `/fp:architect`, `/fp:check-impact`, `/fp:learn`. Update with `/plugin marketplace update fplaz-skills`.
+Claude Code prefixes plugin skills: type `/fp:fp-init`, `/fp:think-deep`, `/fp:create-prd`, `/fp:architect`, `/fp:check-impact`, `/fp:learn`.
 
 Per project instead of globally: install with `--scope project` so it is recorded in `.claude/settings.json`.
 
 ### Cursor
 
-Cursor reads `.cursor-plugin/plugin.json`. For a private repo, the reliable path is a local plugin. It must be a real directory under `~/.cursor/plugins/local/`, not a symlink to elsewhere:
+Cursor reads `.cursor-plugin/plugin.json`. Install it as a local plugin. It must be a real directory under `~/.cursor/plugins/local/`, not a symlink to elsewhere:
 
 ```bash
-git clone git@github.com:fplaz/skills.git ~/.cursor/plugins/local/fp
-# update later
-git -C ~/.cursor/plugins/local/fp pull
+git clone https://github.com/fplaz/skills.git ~/.cursor/plugins/local/fp
 ```
 
 Then run **Developer: Reload Window** and check **Customize** for the skills. Type `/fp-init`, `/think-deep`, `/create-prd`, `/architect`, `/check-impact`, `/learn` in Agent chat.
 
-Team marketplace import from a private repo also works on Cursor Teams (Dashboard, Settings, Plugins, Import from Repo), but private-repo auth has had bugs. Use the local folder if it fails.
+On Cursor Teams you can also import it into a team marketplace (Dashboard, Settings, Plugins, Import from Repo) with `fplaz/skills`.
 
 Per project without a plugin: copy chosen skills into the project's `.cursor/skills/` (Cursor) or `.claude/skills/` (Claude Code).
+
+### Updating
+
+1. Pull the new version: `/plugin marketplace update fplaz-skills` in Claude Code, or `git -C ~/.cursor/plugins/local/fp pull` and **Developer: Reload Window** in Cursor.
+2. Re-run `fp-init` in each project to refresh the `AGENTS.md` block and apply any migrations.
 
 ## Credits
 
