@@ -109,6 +109,8 @@ type InviteError = { kind: "already_member" } | { kind: "seat_limit"; limit: num
 <Each option that lost, and why.>
 ````
 
+Apply `unslop` to the draft before writing it.
+
 Diagram rules: Mermaid only, and only the diagrams that earn their place. Every diagram gets prose next to it, because a planner reads the text. Use the same module names in diagrams, contracts, and prose.
 
 ## 5. Glossary and impact

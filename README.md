@@ -28,6 +28,7 @@ Run `check-impact` any time a change touches something shared.
 | `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD (the original stays in the issue history), or writes a new issue or `docs/prd/<YYYY-MM-DD>-<slug>.md`. | You need a reviewable spec before designing or planning the build. |
 | `architect` | Design doc in `docs/designs/<YYYY-MM-DD>-<slug>.md` from a PRD, Linear issue, drafted document, or plain description: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices and the alternatives that lost. | The requirements are clear enough and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
+| `unslop` | Edits prose to remove AI writing patterns: inflated or promotional words, filler, hedging, synonym rotation, chatbot phrases, em dashes. Touches prose only, never code, paths, or quotes, and uses glossary terms. `think-deep`, `create-prd`, `architect`, and `learn` apply it to their drafts. | Any text that reads like AI wrote it: a doc, an issue, a PR description, a draft reply. |
 | `learn` | Records lessons in `docs/lessons/<YYYY-MM-DD>-<topic>.md`. `learn about <X>` drafts that lesson; plain `learn` proposes what is worth recording and you pick. Shows each draft and writes only after you approve, then offers to commit. | A fix or feature taught you something non-obvious that future work should know. |
 
 ### Linear
@@ -84,7 +85,7 @@ In projects that use Claude Code, `fp-init` sets `"plansDirectory": "docs/plans"
 
 Or from a terminal: `claude plugin marketplace add fplaz/skills && claude plugin install fp@fplaz-skills`.
 
-Claude Code prefixes plugin skills: type `/fp:fp-init`, `/fp:think-deep`, `/fp:create-prd`, `/fp:architect`, `/fp:check-impact`, `/fp:learn`.
+Claude Code prefixes plugin skills: type `/fp:fp-init`, `/fp:think-deep`, `/fp:create-prd`, `/fp:architect`, `/fp:check-impact`, `/fp:learn`, `/fp:unslop`.
 
 Per project instead of globally: install with `--scope project` so it is recorded in `.claude/settings.json`.
 
@@ -96,7 +97,7 @@ Cursor reads `.cursor-plugin/plugin.json`. Install it as a local plugin. It must
 git clone https://github.com/fplaz/skills.git ~/.cursor/plugins/local/fp
 ```
 
-Then run **Developer: Reload Window** and check **Customize** for the skills. Type `/fp-init`, `/think-deep`, `/create-prd`, `/architect`, `/check-impact`, `/learn` in Agent chat.
+Then run **Developer: Reload Window** and check **Customize** for the skills. Type `/fp-init`, `/think-deep`, `/create-prd`, `/architect`, `/check-impact`, `/learn`, `/unslop` in Agent chat.
 
 On Cursor Teams you can also import it into a team marketplace (Dashboard, Settings, Plugins, Import from Repo) with `fplaz/skills`.
 
@@ -111,7 +112,7 @@ Per project without a plugin: copy chosen skills into the project's `.cursor/ski
 
 Ideas adapted, in my own words, from these MIT-licensed projects:
 
-- [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`) and blast-radius (now `check-impact`), plus the feature and bug-fix playbooks, condensed into the `AGENTS.md` rules from `fp-init`.
+- [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Lauren Tan (poteto), Copyright (c) 2026 Lauren Tan. Its architect skill (reworked here as a design-doc `architect`), blast-radius (now `check-impact`), and unslop (rewritten as `unslop`), plus the feature and bug-fix playbooks, condensed into the `AGENTS.md` rules from `fp-init`.
 - [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock. grill-me / grill-with-docs (now `think-deep`), to-prd (now `create-prd`), and improve-codebase-architecture (now the design principles).
 - [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) by Every. The compound step that `learn` writes to `docs/lessons/`.
 

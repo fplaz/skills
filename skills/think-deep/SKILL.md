@@ -57,7 +57,7 @@ Write them in this shape, as a comment, a new issue, or a file:
 - <Term: definition. Mark "approved" or "suggested".>
 ```
 
-Get the sha with `git rev-parse --short HEAD`. When writing to `docs/think-deep-sessions/`, put this front matter above the snapshot line:
+Apply `unslop` to the conclusions before posting, writing, or handing them back. Get the sha with `git rev-parse --short HEAD`. When writing to `docs/think-deep-sessions/`, put this front matter above the snapshot line:
 
 ```yaml
 ---

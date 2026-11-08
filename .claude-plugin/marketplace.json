@@ -11,7 +11,7 @@
     {
       "name": "fp",
       "source": "./",
-      "description": "Personal engineering workflow: fp-init -> think-deep -> create-prd -> architect -> plan -> learn, plus check-impact. Linear-aware."
+      "description": "Personal engineering workflow: fp-init -> think-deep -> create-prd -> plan (architect when needed) -> learn, plus check-impact and unslop. Linear-aware."
     }
   ]
 }

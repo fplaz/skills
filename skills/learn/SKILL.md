@@ -48,7 +48,7 @@ When appending to an existing file, keep its name and `created`, set `updated` t
 
 ## 3. Approve, then write
 
-Show each draft with its target: the file path, new file or appended, and any older entry it changes or removes. Ask the user to approve, edit, or drop it. Revise until approved. Write only approved drafts.
+Apply `unslop` to each draft, then show it with its target: the file path, new file or appended, and any older entry it changes or removes. Ask the user to approve, edit, or drop it. Revise until approved. Write only approved drafts.
 
 ## 4. Beyond the note
 

@@ -44,6 +44,7 @@ Rules:
 - No implementation: no database tables or columns, endpoints, libraries, or file names. If you catch yourself writing implementation, move it to a short "Notes for design" list at the end.
 - Plain language a non-engineer could review.
 - Reuse terms from `docs/glossary.md`. Suggest new terms to the user; do not edit the glossary without approval.
+- Apply `unslop` to the draft before saving it.
 
 ## 4. Save it
 
