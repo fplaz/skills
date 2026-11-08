@@ -13,9 +13,9 @@ Run `fp-init` once per project, then:
 
 1. `think-deep` (optional): settle a fuzzy idea or rough issue.
 2. `create-prd`: write the requirements.
-3. `architect` (optional): design the shape when the work adds or reshapes modules.
-4. Plan and build: not skills. Use your harness's own planning and build modes. The rules `fp-init` added to `AGENTS.md` guide them and point every session at `docs/lessons/`, `docs/glossary.md`, and earlier sessions and designs.
-5. `learn` (optional): record what the work taught you.
+3. Plan and build. Use your harness's own planning and build modes. The rules `fp-init` added to `AGENTS.md` guide them and point every session at `docs/lessons/`, `docs/glossary.md`, and earlier sessions and designs.
+   - If the work adds or reshapes modules, run `architect` first. It takes a PRD, a Linear issue, a drafted document, or a plain description.
+4. `learn` (optional): record what the work taught you.
 
 Run `check-impact` any time a change touches something shared.
 
@@ -26,7 +26,7 @@ Run `check-impact` any time a change touches something shared.
 | `fp-init` | Sets up the project: `docs/` folders, a seeded glossary, the fp block in `AGENTS.md`, and the Claude Code plans folder. See [What fp-init sets up](#what-fp-init-sets-up). | Once per project, and again after updating the pack. |
 | `think-deep` | Interviews you one question at a time until there are no open gaps. Posts the conclusions as a comment on the Linear issue, or to a new issue or `docs/think-deep-sessions/`. Records decisions in its conclusions. Suggests glossary terms and ambiguities, and writes them only when you approve. | You have a fuzzy idea or a rough issue and want every open question settled. |
 | `create-prd` | Product requirements with numbered FRs and acceptance criteria. No implementation. Calls `think-deep` first if the input is too rough. Replaces the Linear issue description with the PRD (the original stays in the issue history), or writes a new issue or `docs/prd/<YYYY-MM-DD>-<slug>.md`. | You need a reviewable spec before designing or planning the build. |
-| `architect` | Design doc in `docs/designs/<YYYY-MM-DD>-<slug>.md` from a Linear issue or local PRD: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices and the alternatives that lost. | The PRD is settled and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
+| `architect` | Design doc in `docs/designs/<YYYY-MM-DD>-<slug>.md` from a PRD, Linear issue, drafted document, or plain description: current state, at least two whole-shape alternatives, module map, sketched signatures, data model, and Mermaid flow diagrams. No implementation. Records hard-to-reverse choices and the alternatives that lost. | The requirements are clear enough and the work adds or reshapes modules, so you want the boundaries and contracts agreed before planning. |
 | `check-impact` | Finds what a change could break beyond the code it touches, and proves the one fact its safety depends on by running code. Works on a diff, a PR, or a proposed change. | You are about to rename a column, change a shared type or API shape, or tweak a policy, or you have a diff you don't trust. |
 | `learn` | Records lessons in `docs/lessons/<YYYY-MM-DD>-<topic>.md`. `learn about <X>` drafts that lesson; plain `learn` proposes what is worth recording and you pick. Shows each draft and writes only after you approve, then offers to commit. | A fix or feature taught you something non-obvious that future work should know. |
 

@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Design how a feature or module is shaped before planning it - ground in the current code, weigh at least two whole-shape alternatives, then write docs/designs/<YYYY-MM-DD>-<slug>.md with a module map, sketched signatures, data model, and flow diagrams. No implementation. Run after create-prd, before planning the build.
+description: Design how a feature or module is shaped before planning it - ground in the current code, weigh at least two whole-shape alternatives, then write docs/designs/<YYYY-MM-DD>-<slug>.md with a module map, sketched signatures, data model, and flow diagrams. No implementation. Takes a PRD, a Linear issue, a drafted document, or a plain description. Run before planning the build.
 disable-model-invocation: true
 ---
 
@@ -14,9 +14,10 @@ This skill decides **how the system is shaped**. It does not restate requirement
 
 ## 1. Read the inputs
 
-- The PRD: a Linear issue the user mentions (read its description and comments), or a file in `docs/prd/`. List every FR. Each must be served by some part of the design. With no PRD, design from the conversation and say so in the Source line.
+- The source: whatever the user hands you. A Linear issue (read its description and comments), a PRD in `docs/prd/`, any other file or drafted document, pasted text, or just the conversation. Name it in the Source line.
+- The requirements: list every one the design must serve. A PRD's FRs are used as they are. Any other source: extract the requirements it states or clearly implies, number them `R1`, `R2`, and so on, and show the list to the user before designing. Do not invent requirements. Gaps and unclear points go to Open questions, or ask if they block the design. If the source is too rough to design from, suggest `think-deep` or `create-prd` first.
 - `docs/glossary.md`, the relevant `docs/lessons/`, and earlier `docs/designs/` and `docs/think-deep-sessions/` on the same area. Use glossary terms. Respect choices recorded there, or name the one you propose to change.
-- Treat the PRD and docs as snapshots that may be stale. Where they disagree with the code, the code wins; say so in the design.
+- Treat the source and docs as snapshots that may be stale. Where they disagree with the code, the code wins; say so in the design.
 
 ## 2. Ground in the current code
 
@@ -52,7 +53,7 @@ description: <One line on what this file covers.>
 
 # <Feature> design
 
-Source: <Linear issue or `docs/prd/<file>.md`> · Status: draft
+Source: <Linear issue, `path`, or "conversation"> · Status: draft
 
 > Snapshot at commit `<short sha>`. Reference only: the code may have changed since, and plans change during implementation. The codebase is the source of truth.
 
@@ -97,7 +98,7 @@ type InviteError = { kind: "already_member" } | { kind: "seat_limit"; limit: num
 <What fails, how it is detected, and what the caller or user sees. Retries, idempotency, partial writes, concurrency.>
 
 ## Requirement coverage
-| FR | Served by (module / contract) |
+| Requirement (FR or R) | Served by (module / contract) |
 |---|---|
 
 ## Open questions
@@ -120,7 +121,7 @@ If a contract changes a shared type, column, config key, or policy, run `check-i
 
 ## 6. Self-check, then hand back
 
-- Every FR appears in Requirement coverage.
+- Every requirement (FR or R) appears in Requirement coverage.
 - Every module in the map has a contract block, and every contract belongs to a module in the map.
 - No placeholder text left. No implementation beyond stubs.
 - No changes outside `docs/designs/` and approved glossary entries.
