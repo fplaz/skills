@@ -5,9 +5,7 @@ Notes in `docs/`. Read the relevant ones before planning or fixing. Skip any tha
 
 - `docs/glossary.md` (tracked): project terms. One word, one meaning: use the glossary term, don't introduce a synonym, and don't reuse a term for a different concept. Suggest changes; edit only with the user's approval.
 - `docs/lessons/` (tracked): rules learned from real problems. Check before planning a change or diagnosing a bug.
-- `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` (local): interview conclusions, product requirements, module designs, and implementation plans.
-
-PRDs and interview conclusions may also live on Linear issues.
+- `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/`, `docs/scratchpad/` (local): interview conclusions, product requirements, module designs, implementation plans, and temporary notes. Do not read these unless specifically asked by the user.
 
 **The codebase is the source of truth.** Docs and issues are snapshots: the code may have changed since they were written, and plans change during implementation. Treat them as context and verify against the code before relying on them.
 
