@@ -19,6 +19,7 @@ docs/think-deep-sessions/    # local
 docs/prd/                    # local
 docs/designs/                # local
 docs/plans/                  # local
+docs/scratchpad/             # local
 ```
 
 Do not overwrite existing files.
