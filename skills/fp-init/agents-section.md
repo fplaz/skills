@@ -5,21 +5,9 @@ Notes in `docs/`. Read the relevant ones before planning or fixing. Skip any tha
 
 - `docs/glossary.md` (tracked): project terms. One word, one meaning: use the glossary term, don't introduce a synonym, and don't reuse a term for a different concept. Suggest changes; edit only with the user's approval.
 - `docs/lessons/` (tracked): rules learned from real problems. Check before planning a change or diagnosing a bug.
-- `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` (local): interview conclusions, product requirements, module designs, and implementation plans. Respect the choices recorded in sessions and designs, or say plainly that you're proposing to change one. A plan should follow the design and cover the PRD's acceptance criteria, or say why it departs.
+- `docs/think-deep-sessions/`, `docs/prd/`, `docs/designs/`, `docs/plans/` (local): interview conclusions, product requirements, module designs, and implementation plans.
 
 PRDs and interview conclusions may also live on Linear issues.
-
-**File convention.** Every file in `docs/` except `glossary.md` is named `YYYY-MM-DD-<slug>.md`, using the date it was created, and starts with this front matter:
-
-```yaml
----
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-description: One line on what this file covers.
----
-```
-
-Set `updated` on every edit. Never rename a file when you update it. To find a file by its slug, match `*-<slug>.md`.
 
 **The codebase is the source of truth.** Docs and issues are snapshots: the code may have changed since they were written, and plans change during implementation. Treat them as context and verify against the code before relying on them.
 
