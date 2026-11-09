@@ -1,6 +1,6 @@
 # Glossary
 
-> Seeded by fp-init on <YYYY-MM-DD> at commit `<short sha>`. Reference only: the codebase is the source of truth.
+Reference only: the codebase is the source of truth.
 > One word, one meaning. One entry per term, alphabetical. Agents suggest changes; edits need the user's approval.
 
 ## Terms
